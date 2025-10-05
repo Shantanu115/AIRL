@@ -1,9 +1,15 @@
+# AIRL Internship Coding Assignment
+
+## Project Overview
+This repository contains the implementation for the AIRL internship coding assignment, consisting of two main tasks:
+1. **Q1**: Vision Transformer (ViT) implementation for CIFAR-10 classification
+2. **Q2**: Text-driven image segmentation using CLIPSeg
 
 ## Repository Structure
 ```
-├── q1.ipynb                     
-├── q2.ipynb                       
-└── README.md                    
+├── q1.ipynb                     # Vision Transformer implementation for CIFAR-10
+├── q2.ipynb                     # Text-driven image segmentation with CLIPSeg  
+└── README.md                    # This file
 ```
 
 ## Q1: Vision Transformer on CIFAR-10 (PyTorch)
@@ -18,7 +24,7 @@ Implementation of Vision Transformer (ViT) for CIFAR-10 image classification ach
 4. Training will complete in approximately 100 epochs
 
 ### Best Model Configuration
-
+```python
 # Optimized hyperparameters
 image_size = 32          # CIFAR-10 image dimensions
 patch_size = 4           # Creates 8×8 grid of patches  
@@ -42,6 +48,7 @@ weight_decay = 0.05      # L2 regularization
 - **Regularization**: Dropout (0.1), weight decay (0.05), and label smoothing (0.1)
 
 ### Data Augmentation Pipeline
+```python
 train_transforms = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
@@ -77,8 +84,11 @@ train_transforms = transforms.Compose([
 ## Performance Summary
 The Vision Transformer implementation achieves **79.55% test accuracy** on CIFAR-10, demonstrating effective adaptation of transformer architecture for small-scale image classification with appropriate regularization strategies and architectural modifications.
 
+
 ## Q2: Text-Driven Image Segmentation with CLIPSeg
 
+### Overview
+End-to-end pipeline for text-prompted image segmentation using CLIPSeg, enabling zero-shot object segmentation through natural language descriptions.
 
 ### How to Run in Google Colab
 1. Open `q2.ipynb` in Google Colab
@@ -89,6 +99,7 @@ The Vision Transformer implementation achieves **79.55% test accuracy** on CIFAR
 ### Technical Implementation
 
 #### Core Pipeline
+```python
 # Model initialization
 processor = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
 model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined")
@@ -96,10 +107,10 @@ model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined"
 # Segmentation pipeline
 def segment_image(image, text_prompt):
     inputs = processor(text=text_prompt, images=image, return_tensors="pt")
-    
+
     with torch.no_grad():
         outputs = model(**inputs)
-    
+
     # Convert logits to probability mask
     mask = outputs.logits.squeeze().sigmoid().cpu().numpy()
     return mask
@@ -119,6 +130,7 @@ def segment_image(image, text_prompt):
 - **Error Handling**: Robust image loading with fallback mechanisms
 
 
+
 ### Model Architecture
 - **Base Model**: CIDAS/clipseg-rd64-refined (Hugging Face)
 - **Text Encoder**: CLIP-based natural language understanding
@@ -130,6 +142,7 @@ def segment_image(image, text_prompt):
 - **Prompt Sensitivity**: Performance varies with prompt specificity and clarity
 - **Computational Requirements**: Requires sufficient GPU memory for optimal performance
 - **Domain Constraints**: Limited by CLIPSeg's pre-training data distribution
+
 
 
 
