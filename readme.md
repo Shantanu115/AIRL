@@ -140,7 +140,6 @@ def segment_image(image, text_prompt):
 ### Limitations and Considerations
 - **Single Object Focus**: Optimized for single object segmentation per prompt
 - **Prompt Sensitivity**: Performance varies with prompt specificity and clarity
-- **Computational Requirements**: Requires sufficient GPU memory for optimal performance
 - **Domain Constraints**: Limited by CLIPSeg's pre-training data distribution
 
 
